@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 export default function CardsToSelect(props) {
 	// POPUP INFO
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const { setViews, setPuntaje } = useContext(Contexto);
 
 	const handlePopoverOpen = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -20,10 +21,14 @@ export default function CardsToSelect(props) {
 		setAnchorEl(null);
 	};
 
+	const handleAdd = () => {
+		const puntaje = prompt('¿Qué puntale le das a la pelicula?');
+		setPuntaje(puntaje);
+		setViews(props.item);
+	};
+
 	const open = Boolean(anchorEl);
 	// POPUP INFO
-
-	const { setViews } = useContext(Contexto);
 
 	return (
 		<Card>
@@ -71,7 +76,9 @@ export default function CardsToSelect(props) {
 				</Info>
 			</Footer>
 			<Botones>
-				<Boton1>Compartir</Boton1>
+				<Boton1 key={props.item.id} onClick={handleAdd}>
+					Agregar
+				</Boton1>
 				<Boton2>
 					<Link to={`/movie/${props.item.id}`}>Ver Más</Link>
 				</Boton2>

@@ -1,38 +1,39 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useContext } from 'react';
 import tw from 'tailwind-styled-components/dist/tailwind';
-import useFetch from '../hooks/useFetch';
-import Cards from '../components/Cards';
+import CardsToSelect from '../components/CardsToSelect';
+import Contexto from '../context/Contexto';
 
 export default function Agregar() {
-	const [busqueda, setBusqueda] = useState();
+	const { SearchList, search } = useContext(Contexto);
 
-	const search = useRef();
+	const busqueda = useRef();
 
 	const handleSubmit = () => {
-		setBusqueda(search.current.value);
+		SearchList(busqueda.current.value);
 	};
 
-	const { data, error } = useFetch(
-		`https://api.themoviedb.org/3/search/multi?api_key=3907f1e02c5af5a6eb040f19d19e5a97&language=es&query=${busqueda}&page=1&include_adult=false`
-	);
-
-	console.log(data);
-
 	return (
-		<div>
+		<MainContainer>
 			<Container>
-				<Input type="text" ref={search}></Input>
+				<Input type="text" ref={busqueda}></Input>
 				<Button onClick={handleSubmit}>Buscar</Button>
 			</Container>
 			<ListadoCards>
-				{data?.map((item) => (
-					<Cards item={item}></Cards>
+				{search.map((item) => (
+					<CardsToSelect item={item} key={item.id}></CardsToSelect>
 				))}
 			</ListadoCards>
-		</div>
+		</MainContainer>
 	);
 }
 
+const MainContainer = tw.section`
+flex
+flex-col
+w-5/6
+justify-center
+items-center
+`;
 const Container = tw.section`
 flex
 justify-center
@@ -49,15 +50,13 @@ const Button = tw.button`
 bg-gray-400
 px-10
 py-1
-
 `;
 
 const ListadoCards = tw.section`
-flex
-flex-wrap
-justify-center
+grid
+grid-cols-autoFit
 mt-10
 mb-20
 gap-5
-
+w-5/6
 `;

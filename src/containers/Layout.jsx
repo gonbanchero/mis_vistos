@@ -18,6 +18,6 @@ min-h-screen
 min-w-screen
 flex
 flex-col
-justify-center
+justify-start
 items-center
 `;

@@ -1,17 +1,49 @@
 import * as React from 'react';
-import useFetch from '../hooks/useFetch';
 import Cards from './Cards.jsx';
+import tw from 'tailwind-styled-components/dist/tailwind';
 
-export default function ImgMediaCard() {
-	const { data, error } = useFetch(
-		`https://api.themoviedb.org/3/discover/movie?api_key=3907f1e02c5af5a6eb040f19d19e5a97&language=es&page=1`
-	);
+export default function PrintCards() {
+	const viewsLocal = localStorage.getItem('views');
+	const views = JSON.parse(viewsLocal);
 
 	return (
 		<>
-			{data?.map((item) => (
-				<Cards item={item}></Cards>
-			))}
+			{views ? (
+				views.views.map((item) => (
+					<Cards item={item} key={item.id}></Cards>
+				))
+			) : (
+				<BienvenidaContainer>
+					<Titulo>Bienvenido a "Mis Vistos"</Titulo>
+					<Texto>
+						En esta App podrás agregar tus peliculas o series vistas
+						para que cuando te pregunten "¿Qué me recomendás para
+						mirar?" tengas tus favoritos siempre a mano.
+					</Texto>
+				</BienvenidaContainer>
+			)}
 		</>
 	);
 }
+
+const BienvenidaContainer = tw.div`
+flex
+justify-center
+flex-col
+w-1/2
+m-0auto
+`;
+
+const Titulo = tw.h1`
+text-white
+text-center
+text-3xl
+my-5
+`;
+
+const Texto = tw.p`
+text-white
+text-center
+text-xl
+
+`;
