@@ -1,5 +1,5 @@
 import Contexto from './Contexto';
-import { useReducer, useState } from 'react';
+import { useReducer, useState, useEffect } from 'react';
 import Reducer from './Reducer';
 import axios from 'axios';
 
@@ -7,8 +7,8 @@ export default function UsarContexto(props) {
 	const { children } = props;
 
 	const estadoInicial = {
-		views: [],
-		alias: '',
+		views: JSON.parse(localStorage.getItem('views')) || [],
+		alias: JSON.parse(localStorage.getItem('alias')) || '',
 	};
 
 	const [search, setSearch] = useState([]);
@@ -28,38 +28,27 @@ export default function UsarContexto(props) {
 
 	const setViews = (item) => {
 		dispatch({ type: 'SET_VIEWS', payload: item });
-
-		localStorage.setItem('views', JSON.stringify(state));
+		// localStorage.setItem('views', JSON.stringify(state));
 	};
 
 	const setAlias = (alias) => {
 		dispatch({ type: 'SET_ALIAS', payload: alias });
-		localStorage.setItem('alias', JSON.stringify(state));
+		// localStorage.setItem('alias', JSON.stringify(alias));
 	};
 
-	const setPuntaje = (puntaje) => {
-		console.log(puntaje);
-		state.views.pepe = puntaje;
-
-		dispatch({
-			type: 'SET_PUNTAJE',
-			payload: puntaje,
-		});
-		// localStorage.setItem('puntaje', JSON.stringify(state));
-	};
-
-	console.log(state);
+	useEffect(() => {
+		localStorage.setItem('state', JSON.stringify(state));
+	}, [state]);
 
 	return (
 		<Contexto.Provider
 			value={{
-				views: estadoInicial.views,
-				alias: estadoInicial.alias,
+				views: state.views,
+				alias: state.alias,
 				setAlias,
 				setViews,
 				SearchList,
 				search,
-				setPuntaje,
 			}}
 		>
 			{children}

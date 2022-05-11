@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { Button } from '@mui/material';
+import Imagen from '../img/contemplative-reptile.jpg';
 
 export default function Movies() {
 	const [movie, setMovie] = useState();
@@ -25,14 +26,22 @@ export default function Movies() {
 	return (
 		<Container>
 			<Izquierda>
-				<img
-					src={'https://image.tmdb.org/t/p/w500' + movie?.poster_path}
-					srcSet={
-						'https://image.tmdb.org/t/p/w500' + movie?.poster_path
-					}
-					alt={movie?.original_title}
-					loading="lazy"
-				/>
+				{movie?.poster_path === undefined ? (
+					<img src={Imagen} alt={movie?.original_title}></img>
+				) : (
+					<img
+						src={
+							'https://image.tmdb.org/t/p/w500' +
+							movie?.poster_path
+						}
+						srcSet={
+							'https://image.tmdb.org/t/p/w500' +
+							movie?.poster_path
+						}
+						alt={movie?.original_title}
+						loading="lazy"
+					/>
+				)}
 			</Izquierda>
 			<Derecha>
 				<Titulo>{movie?.original_title || movie?.name}</Titulo>

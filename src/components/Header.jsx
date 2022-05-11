@@ -2,7 +2,7 @@ import React, { useContext, useRef } from 'react';
 import tw from 'tailwind-styled-components/dist/tailwind';
 import { blue } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -22,7 +22,7 @@ const style = {
 };
 
 export default function Header() {
-	const { setAlias } = useContext(Contexto);
+	const { setAlias, views } = useContext(Contexto);
 
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
@@ -41,7 +41,7 @@ export default function Header() {
 		<MainContainer>
 			<MainHeader>
 				<h1 className="text-5xl font-bold text-white font-Poppins text-left py-5 ">
-					Mis Vistos
+					<Link to="/">Mis Vistos</Link>
 				</h1>
 				<Icon
 					sx={{
@@ -50,7 +50,9 @@ export default function Header() {
 						paddingTop: 0.4,
 					}}
 					onClick={() => {
-						handleOpen();
+						if (views.length === 0) {
+							handleOpen();
+						} else navigate('/agregar');
 					}}
 				>
 					add_circle

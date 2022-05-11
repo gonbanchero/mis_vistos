@@ -3,7 +3,7 @@ import Cards from './Cards.jsx';
 import tw from 'tailwind-styled-components/dist/tailwind';
 
 export default function PrintCards() {
-	const viewsLocal = localStorage.getItem('views');
+	const viewsLocal = localStorage.getItem('state');
 	const views = JSON.parse(viewsLocal);
 
 	return (
