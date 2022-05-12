@@ -2,7 +2,8 @@ import React, { useContext, useRef } from 'react';
 import tw from 'tailwind-styled-components/dist/tailwind';
 import { blue } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
-import { useNavigate, Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -37,26 +38,48 @@ export default function Header() {
 		handleClose();
 	};
 
+	const enterHandler = (e) => {
+		if (e.key === 'Enter' || e.keyCode === 13) handleSubmit();
+	};
+
+	const thisLocation = useLocation();
+
 	return (
 		<MainContainer>
 			<MainHeader>
 				<h1 className="text-5xl font-bold text-white font-Poppins text-left py-5 ">
 					<Link to="/">Mis Vistos</Link>
 				</h1>
-				<Icon
-					sx={{
-						fontSize: 40,
-						color: blue[500],
-						paddingTop: 0.4,
-					}}
-					onClick={() => {
-						if (views.length === 0) {
-							handleOpen();
-						} else navigate('/agregar');
-					}}
-				>
-					add_circle
-				</Icon>
+				{thisLocation.pathname === '/' ? (
+					<Icon
+						sx={{
+							fontSize: 40,
+							color: blue[500],
+							paddingTop: 0.4,
+						}}
+						onClick={() => {
+							if (views.length === 0) {
+								handleOpen();
+							} else navigate('/agregar');
+						}}
+					>
+						add_circle
+					</Icon>
+				) : (
+					<HomeIcon
+						sx={{
+							fontSize: 40,
+							color: blue[500],
+							paddingTop: 0.4,
+						}}
+						onClick={() => {
+							navigate('/');
+						}}
+					>
+						add_circle
+					</HomeIcon>
+				)}
+
 				<Modal
 					open={open}
 					onClose={handleClose}
@@ -74,7 +97,11 @@ export default function Header() {
 							ejemplo "pepitos")
 						</Typography>
 						<Div>
-							<Input type="text" ref={busqueda}></Input>
+							<Input
+								type="text"
+								ref={busqueda}
+								onKeyUp={enterHandler}
+							></Input>
 							<Button onClick={handleSubmit}>Agregar</Button>
 						</Div>
 						{/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>

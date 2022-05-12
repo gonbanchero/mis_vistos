@@ -12,10 +12,18 @@ export default function Agregar() {
 		SearchList(busqueda.current.value);
 	};
 
+	const enterHandler = (e) => {
+		if (e.key === 'Enter' || e.keyCode === 13) handleSubmit();
+	};
+
 	return (
 		<MainContainer>
 			<Container>
-				<Input type="text" ref={busqueda}></Input>
+				<Input
+					type="text"
+					ref={busqueda}
+					onKeyUp={enterHandler}
+				></Input>
 				<Button onClick={handleSubmit}>Buscar</Button>
 			</Container>
 			<ListadoCards>

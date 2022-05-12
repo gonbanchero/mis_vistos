@@ -16,7 +16,6 @@ export default function Cards(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	const { alias } = useContext(Contexto);
-	console.log(alias);
 
 	const handlePopoverOpen = (event) => {
 		setAnchorEl(event.currentTarget);

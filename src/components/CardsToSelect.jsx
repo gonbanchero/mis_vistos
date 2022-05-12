@@ -56,8 +56,6 @@ export default function CardsToSelect(props) {
 		setViews(itemScore);
 	};
 
-	console.log(score);
-
 	//RATING LOGICS
 
 	return (
